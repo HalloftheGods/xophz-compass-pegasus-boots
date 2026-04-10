@@ -22,7 +22,7 @@ Equip your site with the speed of flight with this theme and page builder.
 1. Ensure **Xophz COMPASS** is installed and active.
 2. Upload `xophz-compass-pegasus-boots` to `/wp-content/plugins/`.
 3. Activate through the Plugins menu.
-4. Access via the COMPASS dashboard → **Pegasus Boots**.
+4. Access via the My Compass dashboard → **Pegasus Boots**.
 
 ## Frontend Routes
 
