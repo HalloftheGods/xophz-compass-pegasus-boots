@@ -1,0 +1,21 @@
+{
+  "name": "hallofthegods/xophz-compass-pegasus-boots",
+  "description": "Equip your site with the speed of flight with this theme and page builder.",
+  "version": "26.4.11",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Hall of the Gods, Inc.",
+      "homepage": "https://www.hallofthegods.com"
+    }
+  ],
+  "require": {
+    "composer/installers": "^1.0 || ^2.0"
+  },
+  "autoload": {
+    "files": [
+      "xophz-compass-pegasus-boots.php"
+    ]
+  }
+}
