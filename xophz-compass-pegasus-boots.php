@@ -17,13 +17,14 @@
  * Plugin Name:       Xophz Pegasus Boots
  * Plugin URI:        http://example.com/xophz-compass-pegasus-boots-uri/
  * Description:       Equip your site with the speed of flight with this theme and page builder.   
- * Version:           26.4.13.483
+ * Version:           26.4.14.1311
  * Author:            XP
  * Author URI:        http://example.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       xophz-compass-pegasus-boots
  * Domain Path:       /languages
+ * Update URI:        https://github.com/HalloftheGods/xophz-compass-pegasus-boots
  */
 
 // If this file is called directly, abort.
@@ -36,7 +37,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION', '26.4.13.483' );
+define( 'XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION', '26.4.14.1311' );
 
 /**
  * The code that runs during plugin activation.
