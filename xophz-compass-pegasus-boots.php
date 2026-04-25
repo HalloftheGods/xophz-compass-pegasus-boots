@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Category:          Wizard's Tower
  * Plugin Name:       Xophz Pegasus Boots
- * Plugin URI:        http://example.com/xophz-compass-pegasus-boots-uri/
+ * Plugin URI:        https://github.com/HalloftheGods/xophz-compass-pegasus-boots
  * Description:       Equip your site with the speed of flight with this theme and page builder.   
  * Version:           26.4.24
  * Author:            XP
