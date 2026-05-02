@@ -13,10 +13,11 @@
  * @package           Xophz_Compass_Pegasus_Boots
  *
  * @wordpress-plugin
- * Category:          Wizard's Tower
+ * Category:          True North
+ * Group:             MA
  * Plugin Name:       Xophz Pegasus Boots
  * Plugin URI:        https://github.com/HalloftheGods/xophz-compass-pegasus-boots
- * Description:       Equip your site with the speed of flight with this theme and page builder.   
+ * Description:       Dash to the top of the search rankings. Make SEO and site speed effortlessly enchanting.
  * Version:           26.4.28
  * Author:            XP
  * Author URI:        http://example.com/
