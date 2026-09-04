@@ -8,7 +8,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
+ * @link              https://youmeos.com
  * @since             1.0.0
  * @package           Xophz_Compass_Pegasus_Boots
  *
@@ -20,7 +20,7 @@
  * Description:       Dash to the top of the search rankings. Make SEO and site speed effortlessly enchanting.
  * Version:           26.8.31
  * Author:            XP
- * Author URI:        http://example.com/
+ * Author URI:        https://youmeos.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       xophz-compass-pegasus-boots
@@ -54,8 +54,7 @@ function activate_xophz_compass_pegasus_boots() {
  * This action is documented in includes/class-xophz-compass-pegasus-boots-deactivator.php
  */
 function deactivate_xophz_compass_pegasus_boots() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-xophz-compass-pegasus-boots-deactivator.php';
-	Xophz_Compass_Pegasus_Boots_Deactivator::deactivate();
+	Xophz_Compass_Pegasus_Boots::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_xophz_compass_pegasus_boots' );
