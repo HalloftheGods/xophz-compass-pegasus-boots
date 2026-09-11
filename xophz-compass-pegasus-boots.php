@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Category:          True North
  * Group:             MA
- * Plugin Name:       Xophz Pegasus Boots
+ * Plugin Name:       Xophz PegaSEOus Boots
  * Plugin URI:        https://github.com/HalloftheGods/xophz-compass-pegasus-boots
  * Description:       Dash to the top of the search rankings. Make SEO and site speed effortlessly enchanting.
  * Version:           26.9.5
