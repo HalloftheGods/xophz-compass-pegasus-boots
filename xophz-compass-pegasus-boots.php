@@ -18,7 +18,7 @@
  * Plugin Name:       Xophz PegaSEOus Boots
  * Plugin URI:        https://github.com/HalloftheGods/xophz-compass-pegasus-boots
  * Description:       Dash to the top of the search rankings. Make SEO and site speed effortlessly enchanting.
- * Version:           26.9.5
+ * Version:           26.9.11-87
  * Author:            XP
  * Author URI:        https://youmeos.com/
  * License:           GPL-2.0+
@@ -38,7 +38,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION', '26.9.5' );
+define( 'XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION', '26.9.11-87' );
 
 /**
  * The code that runs during plugin activation.
