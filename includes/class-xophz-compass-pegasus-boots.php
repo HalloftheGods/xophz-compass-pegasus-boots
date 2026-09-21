@@ -1,32 +1,18 @@
 <?php
 
 /**
- * The file that defines the core plugin class
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
+ * The core plugin class for Pegasus Boots.
  *
  * @link       https://youmeos.com
  * @since      1.0.0
- *
  * @package    Xophz_Compass_Pegasus_Boots
  * @subpackage Xophz_Compass_Pegasus_Boots/includes
  */
 
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- *
- * @since      1.0.0
- * @package    Xophz_Compass_Pegasus_Boots
- * @subpackage Xophz_Compass_Pegasus_Boots/includes
- * @author     Your Name
- */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'Xophz_Compass_Plugin_Base' ) ) {
 	$core_plugin_base = dirname( dirname( __DIR__ ) ) . '/xophz-compass/includes/core/class-compass-plugin-base.php';
 	if ( file_exists( $core_plugin_base ) ) {
@@ -37,186 +23,138 @@ if ( ! class_exists( 'Xophz_Compass_Plugin_Base' ) ) {
 class Xophz_Compass_Pegasus_Boots extends Xophz_Compass_Plugin_Base {
 
 	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
+	 * Unique identifier of this plugin.
 	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      Xophz_Compass_Pegasus_Boots_Loader    $loader    Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
-
-	/**
-	 * The unique identifier of this plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var string
 	 */
 	protected $plugin_name;
 
 	/**
-	 * The current version of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * Subsystems.
 	 */
-	protected string $version;
+	protected ?Xophz_Compass_Pegasus_Boots_LLMS $llms = null;
+	protected ?Xophz_Compass_Pegasus_Boots_Negotiator $negotiator = null;
+	protected ?Xophz_Compass_Pegasus_Boots_Schema $schema = null;
+	protected ?Xophz_Compass_Pegasus_Boots_Telemetry $telemetry = null;
+	protected ?Xophz_Compass_Pegasus_Boots_Robots $robots = null;
 
 	/**
-	 * Define the core functionality of the plugin.
+	 * Constructor.
 	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
-	 *
-	 * @since    1.0.0
+	 * @param string|null $param1
+	 * @param string|null $version
+	 * @param string      $param3
 	 */
 	public function __construct( ?string $param1 = null, ?string $version = null, string $param3 = '' ) {
 		if ( null === $param1 ) {
 			$file = dirname( __DIR__ ) . '/xophz-compass-pegasus-boots.php';
-			$ver  = defined( 'XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION' ) ? XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION : '1.0.0';
+			$ver  = defined( 'XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION' ) ? XOPHZ_COMPASS_PEGASUS_BOOTS_VERSION : '26.9.11';
 			parent::__construct( $file, $ver, 'xophz-compass-pegasus-boots' );
 		} else {
-			parent::__construct( $param1, $version ?? '1.0.0', $param3 );
+			parent::__construct( $param1, $version ?? '26.9.11', $param3 );
 		}
-		$this->plugin_name = $this->text_domain;
-		$this->loader = $this;
 
+		$this->plugin_name = $this->text_domain;
+	}
+
+	/**
+	 * Load subsystem classes.
+	 */
+	private function load_dependencies(): void {
+		$inc = plugin_dir_path( __FILE__ );
+
+		require_once $inc . 'class-pegasus-boots-llms.php';
+		require_once $inc . 'class-pegasus-boots-negotiator.php';
+		require_once $inc . 'class-pegasus-boots-schema.php';
+		require_once $inc . 'class-pegasus-boots-telemetry.php';
+		require_once $inc . 'class-pegasus-boots-robots.php';
+		require_once $inc . 'class-pegasus-boots-rest.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-xophz-compass-pegasus-boots-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-xophz-compass-pegasus-boots-public.php';
+	}
+
+	/**
+	 * Child initialization hook called from Xophz_Compass_Plugin_Base.
+	 */
+	public function init(): void {
+		$this->plugin_name = $this->plugin_name ?? $this->text_domain;
 		$this->load_dependencies();
-		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		$this->llms = new Xophz_Compass_Pegasus_Boots_LLMS();
+		$this->llms->init();
+
+		$this->negotiator = new Xophz_Compass_Pegasus_Boots_Negotiator();
+		$this->negotiator->init();
+
+		$this->schema = new Xophz_Compass_Pegasus_Boots_Schema();
+		$this->schema->init();
+
+		$this->telemetry = new Xophz_Compass_Pegasus_Boots_Telemetry();
+		$this->telemetry->init();
+
+		$this->robots = new Xophz_Compass_Pegasus_Boots_Robots();
+		$this->robots->init();
 	}
 
 	/**
-	 * Load the required dependencies for this plugin.
-	 *
-	 * Include the following files that make up the plugin:
-	 *
-	 * - Xophz_Compass_Pegasus_Boots_Loader. Orchestrates the hooks of the plugin.
-	 * - Xophz_Compass_Pegasus_Boots_i18n. Defines internationalization functionality.
-	 * - Xophz_Compass_Pegasus_Boots_Admin. Defines all hooks for the admin area.
-	 * - Xophz_Compass_Pegasus_Boots_Public. Defines all hooks for the public side of the site.
-	 *
-	 * Create an instance of the loader which will be used to register the hooks
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
+	 * Register REST API routes.
 	 */
-	private function load_dependencies() {
-
-		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-
-		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-xophz-compass-pegasus-boots-admin.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-xophz-compass-pegasus-boots-public.php';
-
-
+	public function register_rest_routes(): void {
+		$rest = new Xophz_Compass_Pegasus_Boots_REST();
+		$rest->register_routes();
 	}
 
 	/**
-	 * Define the locale for this plugin for internationalization.
+	 * YouMeOS Spark Definition for Compass registry.
 	 *
-	 * Uses the Xophz_Compass_Pegasus_Boots_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
+	 * @return array<string, mixed>
 	 */
-	private function set_locale() {
-		// Localization handled by Xophz_Compass_Plugin_Base on init priority 5
+	public function get_spark_definition(): ?array {
+		return array(
+			'id'          => 'pegasus-boots',
+			'name'        => 'PegaSEOus Boots',
+			'tagline'     => 'Generative Engine Optimization (GEO) & Search Acceleration',
+			'description' => 'Autonomous llms.txt generation, Markdown content negotiation, Schema.org Knowledge Graphs, and AI crawler governance.',
+			'icon'        => 'fal fa-boot',
+			'route'       => '/pegasus-boots',
+			'category'    => 'growth',
+			'version'     => $this->version,
+		);
 	}
 
 	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
+	 * Admin hooks.
 	 */
-	private function define_admin_hooks() {
-
+	private function define_admin_hooks(): void {
 		$plugin_admin = new Xophz_Compass_Pegasus_Boots_Admin( $this->get_xophz_compass_pegasus_boots(), $this->get_version() );
-
-		// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'addToMenu' );
-
+		$this->add_action( 'admin_menu', $plugin_admin, 'addToMenu' );
 	}
 
 	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
+	 * Public hooks.
 	 */
-	private function define_public_hooks() {
-
+	private function define_public_hooks(): void {
 		$plugin_public = new Xophz_Compass_Pegasus_Boots_Public( $this->get_xophz_compass_pegasus_boots(), $this->get_version() );
-
-		// $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		// $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 	}
 
 	/**
-	 * Run the loader to execute all of the hooks with WordPress.
+	 * Name accessor.
 	 *
-	 * @since    1.0.0
+	 * @return string
 	 */
-	public function run(): void {
-		$this->run_hooks();
-	}
-
-	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The name of the plugin.
-	 */
-	public function get_xophz_compass_pegasus_boots() {
+	public function get_xophz_compass_pegasus_boots(): string {
 		return $this->plugin_name;
 	}
 
 	/**
-	 * The reference to the class that orchestrates the hooks with the plugin.
+	 * Version accessor.
 	 *
-	 * @since     1.0.0
-	 * @return    Xophz_Compass_Pegasus_Boots_Loader    Orchestrates the hooks of the plugin.
-	 */
-	public function get_loader(): self {
-		return $this;
-	}
-
-	/**
-	 * Retrieve the version number of the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    string    The version number of the plugin.
+	 * @return string
 	 */
 	public function get_version(): string {
 		return $this->version;
 	}
-
 }
