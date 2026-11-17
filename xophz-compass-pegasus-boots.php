@@ -20,7 +20,7 @@
  * Description:       Dash to the top of the search rankings. Make SEO and site speed effortlessly enchanting.
  * Version:           26.9.22
  * Author:            XP
- * Author URI:        https://youmeos.com/
+ * Author URI:        https://mycompassconsulting.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       xophz-compass-pegasus-boots
